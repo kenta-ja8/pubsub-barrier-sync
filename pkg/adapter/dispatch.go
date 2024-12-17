@@ -26,7 +26,7 @@ const (
 type CustomMessage struct {
 	JobID           string                `json:"jobId"`
 	TaskCode        TaskCode              `json:"taskCode"`
-	TaskData        []byte                `json:"taskData"`
+	TaskData        json.RawMessage       `json:"taskData"`
 	BarrierJobIDMap map[TaskCode][]string `json:"barrierJobIdMap"`
 	HistoryJobIDs   []string              `json:"historyJobIds"`
 	TraceID         string                `json:"traceId"`
@@ -93,7 +93,7 @@ func DispatchMessage(ctx context.Context, msg *pubsub.Message, topic *pubsub.Top
 	case TaskCode_A:
 		log.Println(cm.TaskCode)
 		var taskDataUsecaseA usecase.TaskDataUsecaseA
-		err := json.Unmarshal([]byte(cm.TaskData), &taskDataUsecaseA)
+		err := json.Unmarshal(cm.TaskData, &taskDataUsecaseA)
 		if err != nil {
 			return errors.Wrap(err, "failed to unmarshal message")
 		}
@@ -128,7 +128,7 @@ func DispatchMessage(ctx context.Context, msg *pubsub.Message, topic *pubsub.Top
 	case TaskCode_B:
 		log.Println(cm.TaskCode)
 		var taskDataUsecaseB usecase.TaskDataUsecaseB
-		err := json.Unmarshal([]byte(cm.TaskData), &taskDataUsecaseB)
+		err := json.Unmarshal(cm.TaskData, &taskDataUsecaseB)
 		if err != nil {
 			return errors.Wrap(err, "failed to unmarshal message")
 		}
@@ -155,7 +155,7 @@ func DispatchMessage(ctx context.Context, msg *pubsub.Message, topic *pubsub.Top
 	case TaskCode_C:
 		log.Println(cm.TaskCode)
 		var taskDataUsecaseC usecase.TaskDataUsecaseC
-		err := json.Unmarshal([]byte(cm.TaskData), &taskDataUsecaseC)
+		err := json.Unmarshal(cm.TaskData, &taskDataUsecaseC)
 		if err != nil {
 			return errors.Wrap(err, "failed to unmarshal message")
 		}

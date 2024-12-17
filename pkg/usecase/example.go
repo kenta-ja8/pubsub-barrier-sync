@@ -40,3 +40,24 @@ func UsecaseC(taskData TaskDataUsecaseC) string {
 	log.Println("usecaseC", taskData)
 	return taskData.Input + "/UsecaseC-Finished"
 }
+
+// New generic use cases
+
+type TaskDataGeneric struct {
+	Input string `json:"input"`
+}
+
+func UsecaseGeneric(taskData TaskDataGeneric) string {
+	log.Println("usecaseGeneric", taskData)
+	return taskData.Input + "/UsecaseGeneric-Finished"
+}
+
+func UsecaseWithDelay(taskData TaskDataGeneric, delay int) string {
+	log.Println("usecaseWithDelay", taskData)
+	waitTime := time.Duration(delay) * time.Second
+	log.Println("----------------------------Waiting for", waitTime, taskData)
+	time.Sleep(waitTime)
+
+	log.Println("----------------------------Done waiting!", taskData)
+	return fmt.Sprintf("%s/UsecaseWithDelay-%v-Finished", taskData.Input, delay)
+}
